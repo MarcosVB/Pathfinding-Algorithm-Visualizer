@@ -1,5 +1,5 @@
 
-async function solveBFS() {
+function solveBFS() {
     let n, n2;
     while (openNodes.length > 0) {
         n = openNodes.shift(0);
@@ -15,8 +15,6 @@ async function solveBFS() {
                 closedNodes.push(n2);
             }
         }
-        redraw();
-        await sleep(delay);
     }
     redraw();
     console.log("No path available.");
