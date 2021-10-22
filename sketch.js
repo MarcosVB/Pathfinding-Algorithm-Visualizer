@@ -11,7 +11,7 @@ let nodeSize, mazeSizeX, mazeSizeY, delay;
 let butNewMaze, butSolve, resetButton;
 
 function setup() {
-    nodeSize = 20;
+    nodeSize = 8;
     delay = 1;
     mazeSizeX = parseInt(windowWidth / nodeSize);
     mazeSizeY = parseInt((windowHeight * 0.95) / nodeSize);
@@ -22,11 +22,11 @@ function setup() {
     noStroke();
 
     //Functions
-    createMaze();
+    newMaze();
 
     //Buttons
     butNewMaze = createButton('New Maze');
-    butNewMaze.mousePressed(createMaze);
+    butNewMaze.mousePressed(newMaze);
     resetButton = createButton('Reset');
     resetButton.mousePressed(resetMaze);
     butSolve = createButton('BFS');
@@ -56,20 +56,25 @@ function draw() {
         }
 }
 
-function createMaze() {
+function newMaze() {
     openNodes = [];
     closedNodes = [];
     maze = [];
     pathNodes = [];
-    for (let i = 0; i < mazeSizeX; i++) {
-        maze[i] = [];
-        for (let j = 0; j < mazeSizeY; j++)
-            maze[i][j] = new Node(i, j);
-    }
+    createMaze();
     setStart();
     setTarget();
     updateMaze();
     redraw();
+}
+
+function createMaze() {
+    for (let i = 0; i < mazeSizeX; i++) {
+        maze[i] = [];
+        for (let j = 0; j < mazeSizeY; j++) {
+            maze[i][j] = new Node(i, j);
+        }
+    }
 }
 
 function updateMaze() {
@@ -84,15 +89,14 @@ function resetMaze() {
     openNodes = [start];
     closedNodes = [];
     pathNodes = [];
-    resetNeighbors();
-    updateMaze();
+    resetNodes();
     redraw();
 }
 
-function resetNeighbors() {
+function resetNodes() {
     for (let column of maze) {
         for (let node of column) {
-            node.neighbors = [];
+            node.previous = null;
         }
     }
 }
