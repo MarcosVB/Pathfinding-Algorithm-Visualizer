@@ -1,5 +1,6 @@
+
 // Array
-let open, close, path;
+let openNodes, closedNodes, pathNodes;
 // Matrix
 let maze;
 // Nodes
@@ -15,14 +16,13 @@ function setup() {
     mazeSizeX = parseInt(windowWidth / nodeSize);
     mazeSizeY = parseInt((windowHeight * 0.95) / nodeSize);
 
-    //Draw settings  
+    //Draw settings
     createCanvas(mazeSizeX * nodeSize, mazeSizeY * nodeSize);
     noLoop();
     noStroke();
 
     //Functions
     createMaze();
-    solveBFS();
 
     //Buttons
     butNewMaze = createButton('New Maze');
@@ -41,11 +41,11 @@ function draw() {
                 fill(0, 0, 255);
             else if (node.isTarget)
                 fill(0, 255, 0);
-            else if (open.includes(node))
+            else if (openNodes.includes(node))
                 fill(250, 200, 0);
-            else if (path.includes(node))
+            else if (pathNodes.includes(node))
                 fill(200, 0, 0);
-            else if (close.includes(node))
+            else if (closedNodes.includes(node))
                 fill(250);
             else if (!node.isFree)
                 fill(0);
@@ -56,23 +56,11 @@ function draw() {
         }
 }
 
-class Node {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.neighbors = [];
-        this.isFree = Math.random() > 0.7 ? false : true;
-        this.isStart = false;
-        this.isTarget = false;
-        this.previous = null;
-    }
-}
-
 function createMaze() {
-    open = [];
-    close = [];
+    openNodes = [];
+    closedNodes = [];
     maze = [];
-    path = [];
+    pathNodes = [];
     for (let i = 0; i < mazeSizeX; i++) {
         maze[i] = [];
         for (let j = 0; j < mazeSizeY; j++)
@@ -93,9 +81,9 @@ function updateMaze() {
 }
 
 function resetMaze() {
-    open = [start];
-    close = [];
-    path = [];
+    openNodes = [start];
+    closedNodes = [];
+    pathNodes = [];
     resetNeighbors();
     updateMaze();
     redraw();
@@ -141,7 +129,7 @@ function setStart() {
     maze[i][j].isStart = true;
     maze[i][j].isFree = true;
     start = maze[i][j];
-    open.push(start);
+    openNodes.push(start);
 }
 
 function setTarget() {
@@ -150,38 +138,6 @@ function setTarget() {
     maze[i][j].isTarget = true;
     maze[i][j].isFree = true;
     target = maze[i][j];
-}
-
-async function solveBFS() {
-    let n, n2;
-    while (open.length > 0) {
-        n = open.shift(0);
-        if (n.isTarget) {
-            printTrace(n);
-            return;
-        }
-        for (let neighbor of n.neighbors) {
-            n2 = neighbor;
-            if (!close.includes(n2)) {
-                n2.previous = n;
-                open.push(n2);
-                close.push(n2);
-            }
-        }
-        redraw();
-        await sleep(delay);
-    }
-    redraw();
-    console.log("No path available.");
-}
-
-function printTrace(node) {
-    path.push(node);
-    if (node.isStart) {
-        redraw();
-        return;
-    }
-    printTrace(node.previous);
 }
 
 function sleep(ms) {
