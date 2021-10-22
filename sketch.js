@@ -75,7 +75,7 @@ function createMaze() {
 function updateMaze() {
     for (let i = 0; i < maze.length; i++) {
         for (let j = 0; j < maze[i].length; j++) {
-            setNeighbors(maze, i, j);
+            setNeighbors(i, j);
         }
     }
 }
@@ -99,27 +99,26 @@ function resetNeighbors() {
 
 /**
  * 
- * @param {Node[][]} nodes - Node matrix
  * @param {number} i - x index
  * @param {number} j - y index
  */
-function setNeighbors(nodes, i, j) {
-    const node = nodes[i][j];
+function setNeighbors(i, j) {
+    const node = maze[i][j];
 
-    if (i > 0 && nodes[i - 1][j].isFree) {
-        node.neighbors.push(nodes[i - 1][j]);
+    if (i > 0 && maze[i - 1][j].isFree) {
+        node.neighbors.push(maze[i - 1][j]);
     }
 
-    if (i < nodes.length - 1 && nodes[i + 1][j].isFree) {
-        node.neighbors.push(nodes[i + 1][j]);
+    if (i < maze.length - 1 && maze[i + 1][j].isFree) {
+        node.neighbors.push(maze[i + 1][j]);
     }
 
-    if (j > 0 && nodes[i][j - 1].isFree) {
-        node.neighbors.push(nodes[i][j - 1]);
+    if (j > 0 && maze[i][j - 1].isFree) {
+        node.neighbors.push(maze[i][j - 1]);
     }
 
-    if (j < nodes[i].length - 1 && nodes[i][j + 1].isFree) {
-        node.neighbors.push(nodes[i][j + 1]);
+    if (j < maze[i].length - 1 && maze[i][j + 1].isFree) {
+        node.neighbors.push(maze[i][j + 1]);
     }
 }
 
