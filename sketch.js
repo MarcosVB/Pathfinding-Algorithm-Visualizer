@@ -31,6 +31,8 @@ function setup() {
     resetButton.mousePressed(resetMaze);
     butSolve = createButton('BFS');
     butSolve.mousePressed(solveBFS);
+    butSolve = createButton('Dijkstra');
+    butSolve.mousePressed(solveDijkstra);
 }
 
 function draw() {
@@ -97,8 +99,10 @@ function resetNodes() {
     for (let column of maze) {
         for (let node of column) {
             node.previous = null;
+            node.distance = Infinity;
         }
     }
+    start.distance = 0;
 }
 
 /**
@@ -129,18 +133,28 @@ function setNeighbors(i, j) {
 function setStart() {
     let i = parseInt(Math.random() * maze.length);
     let j = parseInt(Math.random() * maze[i].length);
-    maze[i][j].isStart = true;
-    maze[i][j].isFree = true;
     start = maze[i][j];
+    start.isStart = true;
+    start.isFree = true;
+    start.distance = 0;
     openNodes.push(start);
 }
 
 function setTarget() {
     let i = parseInt(Math.random() * maze.length);
     let j = parseInt(Math.random() * maze[i].length);
-    maze[i][j].isTarget = true;
-    maze[i][j].isFree = true;
     target = maze[i][j];
+    target.isTarget = true;
+    target.isFree = true;
+}
+
+function printTrace(node) {
+    pathNodes.push(node);
+    if (node.isStart) {
+        redraw();
+        return;
+    }
+    printTrace(node.previous);
 }
 
 function sleep(ms) {

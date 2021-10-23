@@ -10,5 +10,6 @@ class Node {
         this.isStart = false;
         this.isTarget = false;
         this.previous = null;
+        this.distance = Infinity;
     }
 }
