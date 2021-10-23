@@ -39,25 +39,7 @@ function setup() {
 
 function draw() {
     background(150);
-    for (let column of maze)
-        for (let node of column) {
-            if (node.isStart)
-                fill(0, 0, 255);
-            else if (node.isTarget)
-                fill(0, 255, 0);
-            else if (openNodes.includes(node))
-                fill(250, 200, 0);
-            else if (pathNodes.includes(node))
-                fill(200, 0, 0);
-            else if (closedNodes.includes(node))
-                fill(250);
-            else if (!node.isFree)
-                fill(0);
-            else
-                continue; //Background color
-
-            square(node.x * nodeSize, node.y * nodeSize, nodeSize);
-        }
+    maze.forEach(array => { array.forEach(node => { node.paint() }) });
 }
 
 function newMaze() {
@@ -99,12 +81,7 @@ function resetMaze() {
 }
 
 function resetNodes() {
-    for (let column of maze) {
-        for (let node of column) {
-            node.previous = null;
-            node.distance = Infinity;
-        }
-    }
+    maze.forEach(array => { array.forEach(node => { node.reset() }) });
     start.distance = 0;
 }
 
