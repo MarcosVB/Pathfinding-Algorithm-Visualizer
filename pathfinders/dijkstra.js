@@ -37,7 +37,7 @@ function solveDijkstra() {
 function getSmallestDistanceNode(nodeList) {
     let index = 0;
     for (let i = 1; i < nodeList.length; i++) {
-        if (nodeList[i].distance < nodeList[index]) {
+        if (nodeList[i].distance < nodeList[index].distance) {
             index = i;
         }
     }
