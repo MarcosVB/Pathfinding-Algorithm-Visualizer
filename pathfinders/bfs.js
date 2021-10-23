@@ -4,7 +4,7 @@ function solveBFS() {
     let steps = 0;
 
     while (openNodes.length > 0) {
-        
+
         steps++;
         let currentNode = openNodes.shift(0);
 

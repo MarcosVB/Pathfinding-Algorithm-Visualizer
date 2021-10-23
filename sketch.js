@@ -33,6 +33,8 @@ function setup() {
     butSolve.mousePressed(solveBFS);
     butSolve = createButton('Dijkstra');
     butSolve.mousePressed(solveDijkstra);
+    butSolve = createButton('A Star');
+    butSolve.mousePressed(solveAStar);
 }
 
 function draw() {
@@ -83,6 +85,7 @@ function updateMaze() {
     for (let i = 0; i < maze.length; i++) {
         for (let j = 0; j < maze[i].length; j++) {
             setNeighbors(i, j);
+            maze[i][j].heuristic = Math.sqrt(Math.pow(target.x - i, 2) + Math.pow(target.y - j, 2));
         }
     }
 }
@@ -128,6 +131,22 @@ function setNeighbors(i, j) {
     if (j < maze[i].length - 1 && maze[i][j + 1].isFree) {
         node.neighbors.push(maze[i][j + 1]);
     }
+
+    if (i > 0 && j > 0 && maze[i - 1][j - 1].isFree) {
+        node.neighbors.push(maze[i - 1][j - 1]);
+    }
+
+    if (i > 0 && j < maze[i].length - 1 && maze[i - 1][j + 1].isFree) {
+        node.neighbors.push(maze[i - 1][j + 1]);
+    }
+
+    if (i < maze.length - 1 && j > 0 && maze[i + 1][j - 1].isFree) {
+        node.neighbors.push(maze[i + 1][j - 1]);
+    }
+
+    if (i < maze.length - 1 && j < maze[i].length - 1 && maze[i + 1][j + 1].isFree) {
+        node.neighbors.push(maze[i + 1][j + 1]);
+    }
 }
 
 function setStart() {
@@ -152,6 +171,7 @@ function printTrace(node) {
     pathNodes.push(node);
     if (node.isStart) {
         redraw();
+        console.log(`Path size: ${pathNodes.length}`)
         return;
     }
     printTrace(node.previous);

@@ -11,5 +11,6 @@ class Node {
         this.isTarget = false;
         this.previous = null;
         this.distance = Infinity;
+        this.heuristic = 0;
     }
 }
