@@ -16,7 +16,7 @@ function solveDijkstra() {
 
         for (let neighbor of currentNode.neighbors) {
 
-            let distance = currentNode.distance + 1;
+            let distance = currentNode.distance + Math.sqrt(Math.pow(neighbor.x - currentNode.x, 2) + Math.pow(neighbor.y - currentNode.y, 2));
 
             if (distance < neighbor.distance) {
                 neighbor.distance = distance;
