@@ -1,5 +1,5 @@
 
-function solveDijkstra() {
+async function solveDijkstra() {
 
     let steps = 0;
 
@@ -28,9 +28,14 @@ function solveDijkstra() {
                 closedNodes.push(neighbor);
             }
         }
+
+        if (steps % (mazeSizeX * mazeSizeY * 0.005) == 0) {
+            redraw();
+            await sleep(delay);
+        }
     }
 
-    redraw();
+    draw();
     console.log("No path available.");
 }
 

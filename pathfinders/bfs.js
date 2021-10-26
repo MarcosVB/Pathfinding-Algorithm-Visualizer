@@ -1,5 +1,5 @@
 
-function solveBFS() {
+async function solveBFS() {
 
     let steps = 0;
 
@@ -22,7 +22,13 @@ function solveBFS() {
                 closedNodes.push(neighbor);
             }
         }
+
+        if (steps % (mazeSizeX * mazeSizeY * 0.005) == 0) {
+            redraw();
+            await sleep(delay);
+        }
     }
-    redraw();
+
+    draw();
     console.log("No path available.");
 }

@@ -1,5 +1,5 @@
 
-function solveAStar() {
+async function solveAStar() {
 
     let steps = 0;
 
@@ -28,9 +28,14 @@ function solveAStar() {
                 }
             }
         }
+
+        if (steps % (mazeSizeX * mazeSizeY * 0.005) == 0) {
+            redraw();
+            await sleep(delay);
+        }
     }
 
-    redraw();
+    draw();
     console.log("No path available.");
 }
 

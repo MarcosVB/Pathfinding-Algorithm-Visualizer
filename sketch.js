@@ -51,7 +51,7 @@ function newMaze() {
     setStart();
     setTarget();
     updateMaze();
-    redraw();
+    draw();
 }
 
 function createMaze() {
