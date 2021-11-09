@@ -31,6 +31,8 @@ function setup() {
     resetButton.mousePressed(resetMaze);
     butSolve = createButton('BFS');
     butSolve.mousePressed(solveBFS);
+    butSolve = createButton('DFS');
+    butSolve.mousePressed(solveDFS);
     butSolve = createButton('Dijkstra');
     butSolve.mousePressed(solveDijkstra);
     butSolve = createButton('A Star');
